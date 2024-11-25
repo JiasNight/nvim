@@ -60,12 +60,9 @@ return {
 	-- ************ lsp配置 **************
 	{
 		"williamboman/mason.nvim",
-	},
-	{ 	
-		"williamboman/mason-lspconfig.nvim",
-	},
-	{
-		"neovim/nvim-lspconfig",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+
 	},
 	-- 自动补全
 	{
@@ -103,5 +100,9 @@ return {
 	{
 		"rcarriga/nvim-dap-ui",
 		dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
+	},
+	-- 代码注释，gcc和gc注释
+	{
+		"numToStr/Comment.nvim"
 	}
 }
