@@ -30,7 +30,7 @@ mason_lspconfig.setup({
       "ts_ls",
       "volar",
       "jedi_language_server",
-      "java_language_server",
+      -- "java_language_server",
       "jsonls",
       "clangd",
       "yamlls",
@@ -47,39 +47,49 @@ if not lspconfig_status then
   return
 end
 
-lspconfig.lua_ls.setup({
-  -- Server-specific settings. See `:help lspconfig-setup`
-  settings = {
-    ['lua_ls'] = {},
-  },
-})
+-- local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
+-- local capabilities = cmp_nvim_lsp.default_capabilities()
 
-local cmp_nvim_lsp = require("cmp_nvim_lsp")
+-- lspconfig.lua_ls.setup({
+--   -- Server-specific settings. See `:help lspconfig-setup`
+--   settings = {
+--     ['lua_ls'] = {},
+--   },
+-- })
 
-local capabilities = cmp_nvim_lsp.default_capabilities()
+-- lspconfig.jedi_language_server.setup({
+--   capabilities = capabilities,
+--   on_attach = function(client, bufnr)
+--     local function buf_set_keymap(...)
+--       vim.api.nvim_buf_set_keymap(bufnr, ...)
+--     end
+--     -- 绑定快捷键
+--     require("keybindings").mapLSP(buf_set_keymap)
+--   end,
+-- })
 
-lspconfig.jedi_language_server.setup({
-  capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    local function buf_set_keymap(...)
-      vim.api.nvim_buf_set_keymap(bufnr, ...)
-    end
-    -- 绑定快捷键
-    require("keybindings").mapLSP(buf_set_keymap)
-  end,
-})
+-- lspconfig.html.setup({
+--   capabilities = capabilities,
+--   on_attach = function(client, bufnr)
+--     local function buf_set_keymap(...)
+--       vim.api.nvim_buf_set_keymap(bufnr, ...)
+--     end
+--     -- 绑定快捷键
+--     require("keybindings").mapLSP(buf_set_keymap)
+--   end,
+-- })
 
-lspconfig.html.setup({
-  capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    local function buf_set_keymap(...)
-      vim.api.nvim_buf_set_keymap(bufnr, ...)
-    end
-    -- 绑定快捷键
-    require("keybindings").mapLSP(buf_set_keymap)
-  end,
-})
+-- lspconfig.cssls.setup({
+--   capabilities = capabilities,
+--   on_attach = function(client, bufnr)
+--     local function buf_set_keymap(...)
+--       vim.api.nvim_buf_set_keymap(bufnr, ...)
+--     end
+--     -- 绑定快捷键
+--     require("keybindings").mapLSP(buf_set_keymap)
+--   end,
+-- })
 
 
 -- local mason_lspconfig = require("mason-lspconfig")
@@ -104,19 +114,20 @@ lspconfig.html.setup({
 -- { key: 服务器名， value: 配置文件 }
 -- key 必须为下列网址列出的 server name，不可以随便写
 -- https://github.com/williamboman/nvim-lsp-installer#available-lsps
--- local servers = {
---   lua_ls = require("lsp.config.lua"), -- lua/lsp/config/lua.lua
---   html = require("lsp.config.html"),
---   -- cssls = require("lsp.config.css"),
---   -- jsonls = require("lsp.config.json"),
--- }
+local servers = {
+  -- lua/lsp/config/lua.lua
+  html = require("lsp.config.html"),
+  lua_ls = require("lsp.config.lua"),
+  cssls = require("lsp.config.css"),
+  jsonls = require("lsp.config.json"),
+}
 
--- for name, config in pairs(servers) do
---   if config ~= nil and type(config) == "table" then
---     -- 自定义初始化配置文件必须实现 on_setup 方法
---     config.on_setup(lspconfig[name])
---   else
---     -- 使用默认参数
---     lspconfig[name].setup({})
---   end
--- end
+for name, config in pairs(servers) do
+  if config ~= nil and type(config) == "table" then
+    -- 自定义初始化配置文件必须实现 on_setup 方法
+    config.on_setup(lspconfig[name])
+  else
+    -- 使用默认参数
+    lspconfig[name].setup({})
+  end
+end
