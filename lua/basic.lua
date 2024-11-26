@@ -18,7 +18,7 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 -- 高亮所在行
 vim.wo.cursorline = true
--- 显示左侧图标指示列
+-- 显示左侧图标指示列,会让左侧留出一列，用于符号显示
 vim.wo.signcolumn = "yes"
 -- 右侧参考线，超过表示代码太长了，考虑换行
 vim.wo.colorcolumn = "120"
@@ -63,16 +63,16 @@ vim.o.clipboard = "unnamedplus"
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
--- smaller updatetime
+-- 设定在无操作时，交换文件刷写到磁盘的等待毫秒数（默认为 4000）
 vim.o.updatetime = 300
--- 设置 timeoutlen 为等待键盘快捷键连击时间500毫秒，可根据需要设置
+-- 设定等待按键时长的毫秒数
 vim.o.timeoutlen = 500
 -- split window 从下边和右边出现
 vim.o.splitbelow = true
 vim.o.splitright = true
 -- 自动补全不自动选中
-vim.g.completeopt = "menu,menuone,noselect,noinsert"
--- 样式
+--vim.g.completeopt = "menu,menuone,noselect,noinsert"
+-- 样式,是否开启 xterm 兼容的终端 24 位色彩支持
 vim.o.background = "dark"
 vim.o.termguicolors = true
 vim.opt.termguicolors = true
@@ -89,5 +89,3 @@ vim.o.pumheight = 10
 vim.o.showtabline = 2
 -- 使用增强状态栏插件后不再需要 vim 的模式提示
 vim.o.showmode = false
--- let g:loaded_perl_provider = 0
--- let g:loaded_python3_provider = 0

@@ -1,11 +1,18 @@
-
+-- vim.api.nvim_set_keymap() 全局快捷键
+-- vim.api.nvim_buf_set_keymap() Buffer 快捷键
+-- vim.api.nvim_set_keymap('模式', '按键', '映射为', 'options')
+-- 
 local map = vim.api.nvim_set_keymap
--- 复用 opt 参数
+-- 复用 opt 参数, noremap表示不会重新映射,silent为true，表示不会输出多余的信息
 local opt = {noremap = true, silent = true }
+
+-- 保存文件可用Ctrl + s
+map('n', '<C-s>', ':w<CR>', opt)
+map('i', '<C-s>', '<ESC>:w<CR>a', opt)
 
 -- 取消 s 默认功能
 map("n", "s", "", opt)
--- windows 分屏快捷键
+-- 分屏快捷键，sv垂直分屏，sh水平分屏
 map("n", "sv", ":vsp<CR>", opt)
 map("n", "sh", ":sp<CR>", opt)
 -- 关闭当前
@@ -67,10 +74,25 @@ map("i", "<C-h>", "<ESC>I", opt)
 map("i", "<C-l>", "<ESC>A", opt)
 
 -- telescope
+-- find_files查找文件
+-- live_grep全局搜索
+-- buffers打开文件
+-- help_tags帮助
 map("n", "<leader>ff", ":Telescope find_files<CR>", opt)
 map("n", "<leader>fg", ":Telescope live_grep<CR>", opt)
 map("n", "<leader>fb", ":Telescope buffers<CR>", opt)
 map("n", "<leader>fn", ":Telescope help_tags<CR>", opt)
+
+-- bufferline
+-- 左右Tab切换
+map("n", "<C-h>", ":BufferLineCyclePrev<CR>", opt)
+map("n", "<C-l>", ":BufferLineCycleNext<CR>", opt)
+-- 关闭
+--"moll/vim-bbye"
+map("n", "<C-w>", ":Bdelete!<CR>", opt)
+map("n", "<leader>bl", ":BufferLineCloseRight<CR>", opt)
+map("n", "<leader>bh", ":BufferLineCloseLeft<CR>", opt)
+map("n", "<leader>bc", ":BufferLinePickClose<CR>", opt)
 
 -- 插件快捷键
 local pluginKeys = {}
@@ -99,24 +121,108 @@ pluginKeys.nvimTreeList = {
   { key = "s", action = "system_open" },
 }
 
+-- 代码注释插件
+-- see ./lua/plugin-config/comment.lua
+pluginKeys.comment = {
+  -- Normal 模式快捷键
+  toggler = {
+    line = "gcc", -- 行注释
+    block = "gbc", -- 块注释
+  },
+  -- Visual 模式
+  opleader = {
+    line = "gc",
+    bock = "gb",
+  },
+}
+
+-- Telescope 列表中 插入模式快捷键
+pluginKeys.telescopeList = {
+  i = {
+    -- 上下移动
+    ["<C-j>"] = "move_selection_next",
+    ["<C-k>"] = "move_selection_previous",
+    ["<Down>"] = "move_selection_next",
+    ["<Up>"] = "move_selection_previous",
+    -- 历史记录
+    ["<C-n>"] = "cycle_history_next",
+    ["<C-p>"] = "cycle_history_prev",
+    -- 关闭窗口
+    ["<C-c>"] = "close",
+    -- 预览窗口上下滚动
+    ["<C-u>"] = "preview_scrolling_up",
+    ["<C-d>"] = "preview_scrolling_down",
+  },
+}
+
+-- nvim-cmp 自动补全
+pluginKeys.cmp = function(cmp)
+  return {
+    -- 出现补全
+    ["<A-.>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
+    -- 取消
+    ["<A-,>"] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close()
+    }),
+    -- 上一个
+    ["<C-k>"] = cmp.mapping.select_prev_item(),
+    -- 下一个
+    ["<C-j>"] = cmp.mapping.select_next_item(),
+    -- 确认
+    ["<CR>"] = cmp.mapping.confirm({
+        select = true,
+        behavior = cmp.ConfirmBehavior.Replace
+    }),
+    -- 如果窗口内容太多，可以滚动
+    ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i", "c"}),
+    ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i", "c"}),
+  }
+end
+
 -- lsp 回调函数快捷键设置
 pluginKeys.mapLSP = function(mapbuf)
   -- rename
+  --[[
+  Lspsaga 替换 rn
   mapbuf("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opt)
+  --]]
+  mapbuf("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opt)
   -- code action
+  --[[
+  Lspsaga 替换 ca
   mapbuf("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opt)
+  --]]
+  mapbuf("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opt)
   -- go xx
+  --[[
+    mapbuf('n', 'gd', '<cmd>Lspsaga preview_definition<CR>', opt)
+  --]]
   mapbuf("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opt)
+  --[[
+  Lspsaga 替换 gh
   mapbuf("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opt)
-  mapbuf("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opt)
-  mapbuf("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opt)
+  --]]
+  mapbuf("n", "gh", "<cmd>Lspsaga hover_doc<cr>", opt)
+  --[[
+  Lspsaga 替换 gr
   mapbuf("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opt)
-  -- diagnostic
+  --]]
+  mapbuf("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", opt)
+  --[[
+  Lspsaga 替换 gp, gj, gk
   mapbuf("n", "gp", "<cmd>lua vim.diagnostic.open_float()<CR>", opt)
-  mapbuf("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opt)
   mapbuf("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<CR>", opt)
+  mapbuf("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opt)
+  --]]
+  -- diagnostic
+  mapbuf("n", "gp", "<cmd>Lspsaga show_line_diagnostics<CR>", opt)
+  mapbuf("n", "gj", "<cmd>Lspsaga diagnostic_jump_next<cr>", opt)
+  mapbuf("n", "gk", "<cmd>Lspsaga diagnostic_jump_prev<cr>", opt)
   mapbuf("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opt)
-  -- 没用到
+  -- 未用
+  -- mapbuf("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opt)
+  -- mapbuf("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opt)
   -- mapbuf('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opt)
   -- mapbuf("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opt)
   -- mapbuf('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opt)

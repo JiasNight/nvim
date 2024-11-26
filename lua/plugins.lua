@@ -12,17 +12,21 @@ return {
 		end,
 	},
 	-- nvim-tree
-    {
-        "nvim-tree/nvim-tree.lua",
-        dependencies = {"nvim-tree/nvim-web-devicons"}
-    },
 	{
-        "akinsho/bufferline.nvim",
-		dependencies = "nvim-tree/nvim-web-devicons"
-    },
+		"nvim-tree/nvim-tree.lua",
+		dependencies = {"nvim-tree/nvim-web-devicons"}
+	},
 	{
-        "nvim-lualine/lualine.nvim",
-    },
+    "akinsho/bufferline.nvim",
+		dependencies = {"nvim-tree/nvim-web-devicons", "moll/vim-bbye"}
+  },
+	{
+    "nvim-lualine/lualine.nvim",
+		dependencies = {"nvim-tree/nvim-web-devicons"}
+  },
+	{
+    "arkav/lualine-lsp-progress",
+  },
 	-- 通过ctr-h,ctr-j,ctr-k,ctr-l来聚焦窗口
 	{
 		"christoomey/vim-tmux-navigator",
@@ -31,7 +35,7 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate"
-    },
+  },
 	-- 不同括号颜色区分，搭配treesitter
 	{
 		"p00f/nvim-ts-rainbow"
@@ -41,7 +45,8 @@ return {
 		"windwp/nvim-autopairs"
 	},
 	{
-		"lukas-reineke/indent-blankline.nvim"
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
 	},
 	{
 		"nvim-telescope/telescope.nvim", tag = '0.1.8',
@@ -65,38 +70,40 @@ return {
 
 	},
 	-- 自动补全
+	-- 补全引擎
 	{
-		"hrsh7th/nvim-cmp",
+		"hrsh7th/nvim-cmp"
+	},
+	-- snippet 引擎
+	{
+		"hrsh7th/vim-vsnip"
+	},
+	-- 补全源
+	{
+		"hrsh7th/vim-vsnip",
 	},
 	{
 		"hrsh7th/cmp-nvim-lsp",
 	},
 	{
-		"L3MON4D3/LuaSnip",
+		"hrsh7th/cmp-buffer",
 	},
-	{
-		"saadparwaiz1/cmp_luasnip",
-	},
-	{
-		"rafamadriz/friendly-snippets",
-	},
-	-- Snippet 引擎
-	{
-		"hrsh7th/vim-vsnip",
-	},
-	-- 文件路径
 	{
 		"hrsh7th/cmp-path",
 	},
-	-- Formatter
 	{
-		"mhartington/formatter.nvim"
+		"hrsh7th/cmp-cmdline",
 	},
-	-- Linters
+	-- 常见编程语言代码段
 	{
-		"mfussenegger/nvim-lint"
+		"rafamadriz/friendly-snippets",
 	},
-	-- Debug Adapter Protocol
+	-- 代码格式化
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		dependencies = {"nvim-lua/plenary.nvim"}
+	},
+	-- DAP,Debug Adapter Protocol
 	{
 		"rcarriga/nvim-dap-ui",
 		dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
@@ -104,5 +111,12 @@ return {
 	-- 代码注释，gcc和gc注释
 	{
 		"numToStr/Comment.nvim"
+	},
+	-- ui
+	{
+		"onsails/lspkind-nvim"
+	},
+	{
+		"nvimdev/lspsaga.nvim"
 	}
 }
