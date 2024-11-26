@@ -4,10 +4,6 @@ if not mason_status then
   return
 end
 
-local mason_lspconfig = require("mason-lspconfig")
-
-local mason_tool_installer = require("mason-tool-installer")
- 
 mason.setup({
 	ui = {
 		icons = {
@@ -18,37 +14,90 @@ mason.setup({
 	}
 })
 
+local mason_lspconfig_status, mason_lspconfig = pcall(require, "mason-lspconfig")
+
+if not mason_lspconfig_status then
+    vim.notify("没有找到 mason_lspconfig")
+  return
+end
+
 mason_lspconfig.setup({
-  -- list of servers for mason to install
+  -- mason要安装的服务器列表
   ensure_installed = {
-      -- "tsserver",
+      "lua_ls",
       "html",
       "cssls",
-      "lua_ls",
-      -- "jedi_language_server",
+      "ts_ls",
+      "volar",
+      "jedi_language_server",
+      "java_language_server",
       "jsonls",
-      -- "clangd",
-      -- "omnisharp_mono",
-      -- "rust_analyzer",
+      "clangd",
       "yamlls",
-      "taplo",
-      -- "marksman",
+      "marksman",
   },
-  -- auto-install configured servers (with lspconfig)
-  automatic_installation = true, -- not the same as ensure_installed
-})
-
-mason_tool_installer.setup({
-  ensure_installed = {
-      "prettier", -- prettier formatter
-      "stylua", -- lua formatter
-      "isort", -- python formatter
-      "black", -- python formatter
-      "pylint", -- python linter
-      "eslint_d", -- js linter
-  },
+  -- 自动安装已配置的服务器 (使用 lspconfig)
   automatic_installation = true,
 })
+
+
+local lspconfig_status, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_status then
+    vim.notify("没有找到 lspconfig")
+  return
+end
+
+lspconfig.lua_ls.setup({
+  -- Server-specific settings. See `:help lspconfig-setup`
+  settings = {
+    ['lua_ls'] = {},
+  },
+})
+
+
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+local capabilities = cmp_nvim_lsp.default_capabilities()
+
+lspconfig.jedi_language_server.setup({
+  capabilities = capabilities,
+  on_attach = function(client, bufnr)
+    local function buf_set_keymap(...)
+      vim.api.nvim_buf_set_keymap(bufnr, ...)
+    end
+    -- 绑定快捷键
+    require("keybindings").mapLSP(buf_set_keymap)
+  end,
+})
+
+lspconfig.html.setup({
+  capabilities = capabilities,
+  on_attach = function(client, bufnr)
+    local function buf_set_keymap(...)
+      vim.api.nvim_buf_set_keymap(bufnr, ...)
+    end
+    -- 绑定快捷键
+    require("keybindings").mapLSP(buf_set_keymap)
+  end,
+})
+
+
+-- local mason_lspconfig = require("mason-lspconfig")
+
+-- local mason_tool_installer = require("mason-tool-installer")
+
+
+-- mason_tool_installer.setup({
+--   ensure_installed = {
+--       "prettier", -- prettier formatter
+--       "stylua", -- lua formatter
+--       "isort", -- python formatter
+--       "black", -- python formatter
+--       "pylint", -- python linter
+--       "eslint_d", -- js linter
+--   },
+--   automatic_installation = true,
+-- })
 
 
 -- 安装列表
