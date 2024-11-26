@@ -65,9 +65,19 @@ return {
 	-- ************ lsp配置 **************
 	{
 		"williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+        "williamboman/mason-lspconfig.nvim",
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+    },
+	},
+	{
     "neovim/nvim-lspconfig",
-
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        { "antosha417/nvim-lsp-file-operations", config = true },
+        "simrat39/rust-tools.nvim",
+    },
 	},
 	-- 自动补全
 	-- 补全引擎
@@ -117,6 +127,10 @@ return {
 		"onsails/lspkind-nvim"
 	},
 	{
-		"nvimdev/lspsaga.nvim"
+		"nvimdev/lspsaga.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
 	}
 }

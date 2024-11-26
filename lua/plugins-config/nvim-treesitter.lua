@@ -6,7 +6,22 @@ end
  
 treesitter.setup({
 	-- 添加不同语言
-	ensure_installed = { "vim", "vimdoc", "bash", "c", "cpp", "java", "vue", "html", "javascript", "json", "lua", "python", "typescript", "tsx", "css", "rust", "sql", "markdown", "markdown_inline" },
+	ensure_installed = { 
+		"bash",
+		"html",
+		"javascript",
+		"json",
+		"lua",
+		"markdown",
+		"markdown_inline",
+		"python",
+		"query",
+		"regex",
+		"tsx",
+		"typescript",
+		"vim",
+		"yaml",
+	},
 	-- 启用代码高亮模块
 	highlight = {
 		enable = true,
