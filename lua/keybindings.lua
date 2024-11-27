@@ -159,7 +159,7 @@ pluginKeys.telescopeList = {
 pluginKeys.cmp = function(cmp)
   return {
     -- 出现补全
-    ["<A-.>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
+    ["<A-/>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
     -- 取消
     ["<A-,>"] = cmp.mapping({
         i = cmp.mapping.abort(),
@@ -229,6 +229,12 @@ pluginKeys.mapLSP = function(mapbuf)
   -- mapbuf('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opt)
   -- mapbuf('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opt)
   -- mapbuf('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opt)
+  
+  -- typescript 快捷键
+  mapbuf("n", "gs", ":TSLspOrganize<CR>", opt)
+  mapbuf("n", "gr", ":TSLspRenameFile<CR>", opt)
+  mapbuf("n", "gi", ":TSLspImportAll<CR>", opt)
+
 end
 
 return pluginKeys

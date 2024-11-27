@@ -87,19 +87,22 @@ return {
 	{
 		"hrsh7th/vim-vsnip"
 	},
-	-- 补全源
 	{
-		"hrsh7th/vim-vsnip",
+		"hrsh7th/cmp-vsnip"
 	},
+	-- Neovim 内置 LSP 提供的补全
 	{
 		"hrsh7th/cmp-nvim-lsp",
 	},
+	-- 补全buffer
 	{
 		"hrsh7th/cmp-buffer",
 	},
+	-- 补全路径
 	{
 		"hrsh7th/cmp-path",
 	},
+	-- 补全cmd
 	{
 		"hrsh7th/cmp-cmdline",
 	},
@@ -117,6 +120,14 @@ return {
 		"rcarriga/nvim-dap-ui",
 		dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
 	},
+	-- JSON增强
+	{
+		"b0o/schemastore.nvim"
+	},
+	-- TS增强
+	{
+		"jose-elias-alvarez/nvim-lsp-ts-utils"
+	},
 	-- 代码注释，gcc和gc注释
 	{
 		"numToStr/Comment.nvim"
@@ -126,10 +137,25 @@ return {
 		"onsails/lspkind-nvim"
 	},
 	{
+		"lewis6991/gitsigns.nvim"
+	},
+	{
 		"nvimdev/lspsaga.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-tree/nvim-web-devicons",
 		},
+	},
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+    }
 	}
 }

@@ -47,56 +47,6 @@ if not lspconfig_status then
   return
 end
 
--- local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
--- local capabilities = cmp_nvim_lsp.default_capabilities()
-
--- lspconfig.lua_ls.setup({
---   -- Server-specific settings. See `:help lspconfig-setup`
---   settings = {
---     ['lua_ls'] = {},
---   },
--- })
-
--- lspconfig.jedi_language_server.setup({
---   capabilities = capabilities,
---   on_attach = function(client, bufnr)
---     local function buf_set_keymap(...)
---       vim.api.nvim_buf_set_keymap(bufnr, ...)
---     end
---     -- 绑定快捷键
---     require("keybindings").mapLSP(buf_set_keymap)
---   end,
--- })
-
--- lspconfig.html.setup({
---   capabilities = capabilities,
---   on_attach = function(client, bufnr)
---     local function buf_set_keymap(...)
---       vim.api.nvim_buf_set_keymap(bufnr, ...)
---     end
---     -- 绑定快捷键
---     require("keybindings").mapLSP(buf_set_keymap)
---   end,
--- })
-
--- lspconfig.cssls.setup({
---   capabilities = capabilities,
---   on_attach = function(client, bufnr)
---     local function buf_set_keymap(...)
---       vim.api.nvim_buf_set_keymap(bufnr, ...)
---     end
---     -- 绑定快捷键
---     require("keybindings").mapLSP(buf_set_keymap)
---   end,
--- })
-
-
--- local mason_lspconfig = require("mason-lspconfig")
-
--- local mason_tool_installer = require("mason-tool-installer")
-
-
 -- mason_tool_installer.setup({
 --   ensure_installed = {
 --       "prettier", -- prettier formatter
@@ -115,10 +65,11 @@ end
 -- key 必须为下列网址列出的 server name，不可以随便写
 -- https://github.com/williamboman/nvim-lsp-installer#available-lsps
 local servers = {
-  -- lua/lsp/config/lua.lua
-  html = require("lsp.config.html"),
   lua_ls = require("lsp.config.lua"),
+  html = require("lsp.config.html"),
   cssls = require("lsp.config.css"),
+  ts_ls = require("lsp.config.ts"),
+  emmet_ls = require("lsp.config.emmet"),
   jsonls = require("lsp.config.json"),
 }
 

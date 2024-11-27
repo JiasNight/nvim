@@ -1,37 +1,35 @@
-local cmp_status, cmp = pcall(require, "cmp")
-if not cmp_status then
+local status, cmp = pcall(require, "cmp")
+if not status then
     vim.notify("没有找到 cmp")
   return
 end
-
--- local luasnip_status, luasnip = pcall(require, "luasnip")
--- if not luasnip_status then
---     vim.notify("没有找到 luasnip")
---   return
--- end
-
--- require("luasnip.loaders.from_vscode").lazy_load()
-
--- -- 下面会用到这个函数
--- local check_backspace = function()
---   local col = vim.fn.col "." - 1
---   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
--- end
-
 
 cmp.setup({
   -- 指定 snippet 引擎
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body)
+
+      -- For `luasnip` users.
+      -- require('luasnip').lsp_expand(args.body)
+
+      -- For `ultisnips` users.
+      -- vim.fn["UltiSnips#Anon"](args.body)
+
+      -- For `snippy` users.
+      -- require'snippy'.expand_snippet(args.body)
+
     end,
   },
 
-  -- 这里重要
+  -- 补全源
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = "vsnip" },
-    { name = 'luasnip' },
+    -- { name = 'luasnip' },
+    -- { name = 'ultisnips' },
+    -- { name = 'snippy' },
+
   }, { 
     { name = "buffer" }, { name = "path" } 
   }),
