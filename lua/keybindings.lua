@@ -94,12 +94,13 @@ map("n", "<leader>bl", ":BufferLineCloseRight<CR>", opt)
 map("n", "<leader>bh", ":BufferLineCloseLeft<CR>", opt)
 map("n", "<leader>bc", ":BufferLinePickClose<CR>", opt)
 
--- 插件快捷键
-local pluginKeys = {}
-
 -- nvim-tree
 -- alt + m 键打开关闭tree
 map("n", "<A-m>", ":NvimTreeToggle<CR>", opt)
+
+-- 插件快捷键
+local pluginKeys = {}
+
 -- 列表快捷键
 pluginKeys.nvimTreeList = {
   -- 打开文件或文件夹
@@ -122,7 +123,6 @@ pluginKeys.nvimTreeList = {
 }
 
 -- 代码注释插件
--- see ./lua/plugin-config/comment.lua
 pluginKeys.comment = {
   -- Normal 模式快捷键
   toggler = {
@@ -159,7 +159,7 @@ pluginKeys.telescopeList = {
 pluginKeys.cmp = function(cmp)
   return {
     -- 出现补全
-    ["<A-/>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
+    ["<A-.>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
     -- 取消
     ["<A-,>"] = cmp.mapping({
         i = cmp.mapping.abort(),

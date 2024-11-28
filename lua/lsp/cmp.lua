@@ -5,6 +5,16 @@ if not status then
 end
 
 cmp.setup({
+  -- 补全菜单和文档框，是否要有边框，以及高亮组等
+  window = {
+    completion = cmp.config.window.bordered({
+      border = "none",
+      winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:MyCmpSel", -- 重点是CursorLine
+    }),
+    documentation = cmp.config.window.bordered({
+      border = "none",
+    }),
+  },
   -- 指定 snippet 引擎
   snippet = {
     expand = function(args)
@@ -23,16 +33,20 @@ cmp.setup({
   },
 
   -- 补全源
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = "vsnip" },
-    -- { name = 'luasnip' },
-    -- { name = 'ultisnips' },
-    -- { name = 'snippy' },
+  sources = cmp.config.sources(
+    {
+      { name = 'nvim_lsp', menu = "[LSP]" },
+      { name = "vsnip", menu = "[Vsnip]" },
+      -- { name = 'luasnip' },
+      -- { name = 'ultisnips' },
+      -- { name = 'snippy' },
 
-  }, { 
-    { name = "buffer" }, { name = "path" } 
-  }),
+    },
+    {
+      { name = "buffer", menu = "[Buf]" },
+      { name = "path", menu = "[Path]" } 
+    }
+),
 
   -- 快捷键设置
   mapping = require("keybindings").cmp(cmp),
@@ -45,7 +59,7 @@ cmp.setup({
 -- / 查找模式使用 buffer 源
 cmp.setup.cmdline("/", {
   sources = {
-    { name = "buffer" },
+    { name = "buffer", menu = "[Buf]" },
   },
 })
 
@@ -54,6 +68,6 @@ cmp.setup.cmdline(":", {
   sources = cmp.config.sources({
     { name = "path" },
   }, {
-    { name = "cmdline" },
+    { name = "cmdline", menu = "[Cmd]" },
   }),
 })
